@@ -15,14 +15,16 @@ public class App {
             System.out.print("명령) ");
             String command = scanner.nextLine();
 
-            if (command.equals("등록")) {
-                System.out.print("명언 : ");
-                String saying = scanner.nextLine();
-                System.out.print("작가 : ");
-                String author = scanner.nextLine();
-
-            } else if(command.equals("종료")) {
-                break;
+            switch (command) {
+                case "등록" -> {
+                    System.out.print("명언 : ");
+                    String saying = scanner.nextLine();
+                    System.out.print("작가 : ");
+                    String author = scanner.nextLine();
+                }
+                case "종료" -> {
+                    return;
+                }
             }
         }
     }
