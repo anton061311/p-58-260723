@@ -42,6 +42,7 @@ public class TestUtilTest {
         TestUtil.clearSetOutToByteArray(outputStream); // 배열 => 모니터
 
         assertThat(outStr).isEqualTo("1 / 이순신 / 나의 죽음을 적에게 알리지 마라\n");
+        assertThat(outStr).contains("1 / 이순신 / 나의 죽음을 적에게 알리지 마라\n");
 
 
         System.out.println("이제 화면에 출력됩니다.");
