@@ -4,22 +4,23 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        experiment1();
+//        experiment1();
+        experiment2();
     }
     public static void experiment2() {
         System.out.println("안녕하세요");
 
-        PrintStream originalOut = System.out;
+        PrintStream originalOut = System.out; // 모니터로
 
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        PrintStream printStream = new PrintStream(outputStream);
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream(); // 배열
+        PrintStream printStream = new PrintStream(outputStream); // 배열로 가는 통로
 
-        System.setOut(printStream);
+        System.setOut(printStream); // 목적지를 배열로
 
-        System.out.println("하하하");
+        System.out.println("하하하"); //콘솔에 출력 될까? 아니요.
 
-        String outStr = outputStream.toString();
-        System.setOut(originalOut);
+        String outStr = outputStream.toString(); // 배열에 저장된 값 저장
+        System.setOut(originalOut); // 원래 모니터로 돌리기
         printStream.close();
 
         if(outStr.equals("하하하")) {
