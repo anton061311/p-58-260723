@@ -5,6 +5,9 @@ build/
 !**/src/test/**/build/
 .kotlin
 
+### 일단   ###
+scr/main/java/com/back/domain/Main.java
+
 ### IntelliJ IDEA ###
 .idea/
 .idea/modules.xml
