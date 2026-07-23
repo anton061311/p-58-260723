@@ -1,9 +1,12 @@
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class App {
 
     private Scanner scanner;
     int lastId = 0;
+    List<WiseSaying> wiseSayings = new ArrayList<>();
 
     public App(Scanner scanner) {
         this.scanner = scanner;
@@ -28,6 +31,17 @@ public class App {
                 }
                 case "종료" -> {
                     return;
+                }
+                case "목록" -> {
+                    System.out.println("번호 / 작가 / 명언");
+                    System.out.println("----------------------");
+
+                    wiseSayings
+                            .reversed()
+                            .stream()
+                            .forEach(wiseSaying -> System.out.printf("%d / %s / %s%n",
+                                    wiseSaying.getId(), wiseSaying.getAuthor(), wiseSaying.getSaying()));
+
                 }
             }
         }
