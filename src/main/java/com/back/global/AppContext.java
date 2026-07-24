@@ -9,18 +9,18 @@ import java.util.Scanner;
 
 public class AppContext {
 
-    public static Scanner sc;
+    public static Scanner scanner;
     public static SystemController systemController;
     public static WiseSayingController wiseSayingController;
     public static WiseSayingService wiseSayingService;
     public static WiseSayingRepository wiseSayingRepository;
 
     // 테스트용 scanner
-    public static void init(Scanner _sc) {
-        AppContext.sc = _sc;
+    public static void init(Scanner scanner) {
+        AppContext.scanner = scanner;
         AppContext.wiseSayingRepository = new WiseSayingRepository();
         AppContext.wiseSayingService = new WiseSayingService();
-        AppContext.wiseSayingController = new WiseSayingController(sc);
+        AppContext.wiseSayingController = new WiseSayingController();
         AppContext.systemController = new SystemController();
     }
 

@@ -15,7 +15,7 @@ public class App {
     private SystemController systemController = AppContext.systemController;
 
     public App() {
-        this.sc = AppContext.sc;
+        this.scanner = AppContext.;
         this.wiseSayingController = AppContext.wiseSayingController;
     }
 

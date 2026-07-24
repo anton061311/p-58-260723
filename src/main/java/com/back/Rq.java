@@ -7,22 +7,22 @@ import java.util.stream.Collectors;
 
 public class Rq {
 
-    private String cmd;
+    private String command;
 
-    public Rq(String cmd) {
-        this.cmd = cmd;
+    public Rq(String command) {
+        this.command = command;
     }
 
     public String getActionName() {
-        return cmd.split("\\?")[0];
+        return command.split("\\?")[0];
     }
 
     public String getParam(String inputKey, String defaultValue) {
 
         Map<String, String> paramMap = new HashMap<>();
 
-        String[] cmdBits = cmd.split("\\?");
-        String queryString = cmdBits[1];
+        String[] commandBits = command.split("\\?");
+        String queryString = commandBits[1];
         String[] queryBits = queryString.split("&");
 
         paramMap = Arrays.stream(queryBits)
