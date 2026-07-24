@@ -3,6 +3,7 @@ package wiseSaying;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -224,6 +225,36 @@ public class WiseSayingControllerTest {
                 .contains("8 / 작가 8 / 명언 8")
                 .contains("7 / 작가 7 / 명언 7")
                 .contains("6 / 작가 6 / 명언 6")
+                .doesNotContain("5 / 작가 5 / 명언 5")
+                .doesNotContain("4 / 작가 4 / 명언 4")
+                .doesNotContain("3 / 작가 3 / 명언 3")
+                .doesNotContain("2 / 작가 2 / 명언 2")
+                .doesNotContain("1 / 작가 1 / 명언 1");
+    }
+
+    @Test
+    @DisplayName("목록: 사용자가 페이지당 개수 선택 가능하도록. 목록?pageSize=5")
+    void t13() throws IOException {
+
+        String input = IntStream.rangeClosed(1, 10)
+                .mapToObj(num -> """
+                        등록
+                        명언 %d
+                        작가 %d
+                        """.formatted(num, num))
+                .collect(Collectors.joining("\n"));
+
+        input += "목록?pageSize=3\n";
+
+        String out = AppTestRunner.run(input);
+
+        System.out.println(out);
+        assertThat(out)
+                .contains("10 / 작가 10 / 명언 10")
+                .contains("9 / 작가 9 / 명언 9")
+                .contains("8 / 작가 8 / 명언 8")
+                .doesNotContain("7 / 작가 7 / 명언 7")
+                .doesNotContain("6 / 작가 6 / 명언 6")
                 .doesNotContain("5 / 작가 5 / 명언 5")
                 .doesNotContain("4 / 작가 4 / 명언 4")
                 .doesNotContain("3 / 작가 3 / 명언 3")
