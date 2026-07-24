@@ -15,4 +15,10 @@ public class PageDto {
     private int totalItems; // 전체 아이템 수
     private List<WiseSaying> content;
 
+    public int getTotalPageCnt() {
+        if (totalItems == 0) {
+            return 0;
+        }
+        return (int) Math.ceil((double) totalItems / pageSize);
+    }
 }
