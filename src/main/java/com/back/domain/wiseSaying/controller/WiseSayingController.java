@@ -1,9 +1,9 @@
 package com.back.domain.wiseSaying.controller;
 
-import com.back.AppContext;
-import com.back.global.Rq;
 import com.back.domain.wiseSaying.entity.WiseSaying;
 import com.back.domain.wiseSaying.service.WiseSayingService;
+import com.back.global.AppContext;
+import com.back.global.Rq;
 
 import java.util.List;
 import java.util.Scanner;
