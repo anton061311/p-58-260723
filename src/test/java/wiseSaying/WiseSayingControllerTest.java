@@ -76,6 +76,8 @@ public class WiseSayingControllerTest {
                 목록
                 """);
 
+        System.out.println(out);
+
         assertThat(out)
                 .contains("번호 / 작가 / 명언")
                 .contains("----------------------")
