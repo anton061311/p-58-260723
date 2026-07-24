@@ -20,16 +20,29 @@ public class WiseSayingService {
         return wiseSaying;
     }
 
-    public List<WiseSaying> findListDesc() {
-        return wiseSayingRepository.findListDesc();
-    }
-
     public boolean delete(int id) {
         return wiseSayingRepository.delete(id);
     }
 
+    public List<WiseSaying> findListDesc() {
+        return wiseSayingRepository.findListDesc();
+    }
+
+
+
     public WiseSaying findByIdOrNull(int id) {
         return wiseSayingRepository.findByIdOrNull(id);
     }
+
+    public void modify(WiseSaying wiseSaying, String newSaying, String newAuthor) {
+
+        wiseSaying.setSaying(newSaying);
+        wiseSaying.setAuthor(newAuthor);
+
+        wiseSayingRepository.save(wiseSaying);
+    }
+
+
+
 
 }
