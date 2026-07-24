@@ -22,14 +22,17 @@ public class TestUtil {
         CURRENT_OUT = printStream;
 
         return outputStream;
+
     }
 
     public static void clearSetOutToByteArray(ByteArrayOutputStream outputStream) {
+
         System.setOut(ORIGINAL_OUT);
         try {
             outputStream.close();
         } catch (Exception e) {
             System.out.println("aaa");
-        }        CURRENT_OUT.close();
+        }
+        CURRENT_OUT.close();
     }
 }
