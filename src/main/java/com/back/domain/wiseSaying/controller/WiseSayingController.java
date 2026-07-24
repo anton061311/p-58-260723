@@ -20,27 +20,28 @@ public class WiseSayingController {
 
     public void actionAdd() {
         System.out.print("명언 : ");
-        String saying = sc.nextLine();
+        String saying = scanner.nextLine();
         System.out.print("작가 : ");
-        String author = sc.nextLine();
+        String author = scanner.nextLine();
 
         WiseSaying wiseSaying = wiseSayingService.write(saying, author);
 
         System.out.println("%d번 명언이 등록되었습니다.".formatted(wiseSaying.getId()));
     }
 
-    public void actionList() {
+    public void actionList(Rq rq) {
+
+        String keywordType = rq.getParam("keywordType", "");
+        String keyword = rq.getParam("keyword", "");
         System.out.println("번호 / 작가 / 명언");
         System.out.println("----------------------");
 
-        List<WiseSaying> wiseSayings = wiseSayingService.findListDesc();
+        List<WiseSaying> wiseSayings = wiseSayingService.findListDesc(keywordType, keyword);
 
         wiseSayings
-                .reversed()
                 .stream()
                 .forEach(wiseSaying -> System.out.printf("%d / %s / %s%n",
-                        wiseSaying.getId(), wiseSaying.getAuthor(), wiseSaying.getSaying()));
-
+                        wiseSaying.getId(), wiseSaying.getAuthor(), wiseSaying.getContent()));
     }
 
 
@@ -68,7 +69,7 @@ public class WiseSayingController {
             return;
         }
 
-        System.out.println("명언(기존) : %s".formatted(wiseSaying.getSaying()));
+        System.out.println("명언(기존) : %s".formatted(wiseSaying.getContent()));
         String newSaying = scanner.nextLine();
         System.out.println("작가(기존) : %s".formatted(wiseSaying.getAuthor()));
         String newAuthor = scanner.nextLine();
