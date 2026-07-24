@@ -23,7 +23,7 @@ public class WiseSayingRepository {
     }
 
     public WiseSaying save(WiseSaying wiseSaying) {
-        if(wiseSaying.isNew()) {
+        if (wiseSaying.isNew()) {
             wiseSaying.setId(++lastId);
             wiseSayings.add(wiseSaying);
         }
@@ -33,5 +33,21 @@ public class WiseSayingRepository {
 
     public List<WiseSaying> findListDesc() {
         return wiseSayings.reversed();
+    }
+
+    public List<WiseSaying> findByContentContaining(String keyword) {
+        return wiseSayings.stream()
+                .filter(
+                        w -> w.getContent().contains(keyword)
+                )
+                .toList();
+    }
+
+    public List<WiseSaying> findByAuthorContaining(String keyword) {
+        return wiseSayings.stream()
+                .filter(
+                        w -> w.getAuthor().contains(keyword)
+                )
+                .toList();
     }
 }
