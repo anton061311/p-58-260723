@@ -7,6 +7,7 @@ import com.back.global.AppContext;
 import com.back.global.Rq;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -65,6 +66,7 @@ public class WiseSayingController {
     }
 
 
+
     public void actionDelete(Rq rq) {
 
         int id = rq.getParamAsInt("id", -1);
@@ -75,27 +77,25 @@ public class WiseSayingController {
         }
 
         System.out.println("%d번 명언이 삭제되었습니다.".formatted(id));
-
     }
 
     public void actionModify(Rq rq) {
 
         int id = rq.getParamAsInt("id", -1);
 
-        WiseSaying wiseSaying = wiseSayingService.findByIdOrNull(id);
+        Optional<WiseSaying> opWiseSaying = wiseSayingService.findById(id);
 
-        if(wiseSaying == null) {
+        if(opWiseSaying.isEmpty()) {
             System.out.println("%d번 명언은 존재하지 않습니다.".formatted(id));
             return;
         }
+
+        WiseSaying wiseSaying = opWiseSaying.get();
 
         System.out.println("명언(기존) : %s".formatted(wiseSaying.getContent()));
         String newSaying = scanner.nextLine();
         System.out.println("작가(기존) : %s".formatted(wiseSaying.getAuthor()));
         String newAuthor = scanner.nextLine();
-
-        wiseSayingService.modify(wiseSaying, newSaying, newAuthor);
-
     }
 
 }
