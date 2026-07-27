@@ -178,7 +178,7 @@ public class WiseSayingFileRepositoryTest {
         WiseSaying wiseSaying4 = new WiseSaying("잠을 잘 자야 합니다.", "꿈꾸는자");
         wiseSayingFileRepository.save(wiseSaying4);
 
-        PageDto pageDto = wiseSayingFileRepository.findByContentContainingOrAuthorContainingDesc("꿈", 5, 1);
+        PageDto pageDto = wiseSayingFileRepository.findByContentContainingOrAuthorContainingIdDesc("꿈", 5, 1);
 
         assertThat(pageDto.getContent())
                 .containsExactly(
