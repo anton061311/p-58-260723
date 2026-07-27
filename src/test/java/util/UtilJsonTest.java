@@ -1,6 +1,7 @@
+package util;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import com.back.global.Util;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -20,16 +21,16 @@ public class UtilJsonTest {
         map.put("age", 20);
 
         // when
-        String jsonStr = Util.json.toString(map);
+        String jsonStr = com.back.standard.Util.json.toString(map);
 
         // then
         assertThat(jsonStr).isEqualTo(
                 """
-                        {
-                            "id": 1,
-                            "name": "홍길동",
-                            "age": 20
-                        }"""
+                {
+                    "id": 1,
+                    "name": "홍길동",
+                    "age": 20
+                }"""
         );
 
     }
@@ -46,7 +47,7 @@ public class UtilJsonTest {
                 }""";
 
         // when
-        Map<String, Object> map = Util.json.toMap(jsonStr);
+        Map<String, Object> map = com.back.standard.Util.json.toMap(jsonStr);
 
         // then
         assertThat(map)

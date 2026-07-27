@@ -9,7 +9,6 @@ import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class WiseSayingFileRepositoryTest {
-
     private WiseSayingFileRepository wiseSayingFileRepository;
 
     public WiseSayingFileRepositoryTest() {
@@ -27,7 +26,5 @@ public class WiseSayingFileRepositoryTest {
         WiseSaying foundedWiseSaying = wiseSayingFileRepository.findByIdOrNull(1);
 
         assertThat(foundedWiseSaying).isEqualTo(wiseSaying);
-
     }
-
 }
