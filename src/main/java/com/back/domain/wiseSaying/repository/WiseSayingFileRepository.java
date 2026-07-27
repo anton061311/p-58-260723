@@ -1,5 +1,6 @@
 package com.back.domain.wiseSaying.repository;
 
+import com.back.domain.wiseSaying.dto.PageDto;
 import com.back.domain.wiseSaying.entity.WiseSaying;
 import com.back.standard.Util;
 
@@ -76,5 +77,10 @@ public class WiseSayingFileRepository {
 
     private int getLastId() {
         return Util.file.getAsInt(getLastIdPath(), 0);
+    }
+
+    public PageDto findByContentContainingDesc(String kw, int pageSize, int pageNo) {
+
+        return null;
     }
 }
