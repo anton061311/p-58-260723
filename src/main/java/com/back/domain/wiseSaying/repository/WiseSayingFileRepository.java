@@ -13,6 +13,14 @@ public class WiseSayingFileRepository {
 
         if(wiseSaying.isNew()) {
             wiseSaying.setId(++lastId);
+
+            incrementLastId();
+            int lastId = getLastId();
+            wiseSaying.setId(lastId);
+
+            String jsonStr = Util.json.toString(wiseSaying.toMap());
+
+            Util.file.set("db/wiseSaying/%d.json".formatted(wiseSaying.getId()), jsonStr);
         }
 
         // wiseSaying -> map
@@ -27,6 +35,15 @@ public class WiseSayingFileRepository {
 
 
         return wiseSaying;
+    }
+
+    private void incrementLastId() {
+        Util.file.set("db/wiseSaying/lastId.txt", String.valueOf(getLastId() + 1));
+    }
+
+    private int getLastId() {
+
+        return Util.file.getAsInt("db/wiseSaying/lastId.txt", 0);
     }
 
     public WiseSaying findByIdOrNull(int id) {
