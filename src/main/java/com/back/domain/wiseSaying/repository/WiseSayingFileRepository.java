@@ -86,6 +86,10 @@ public class WiseSayingFileRepository implements WiseSayingRepository {
         return pageOf(filteredWiseSayings, pageNo, pageSize);
     }
 
+    public String build() {
+        return null;
+    }
+
     private PageDto pageOf(List<WiseSaying> filteredContent, int pageNo, int pageSize) {
 
         List<WiseSaying> content = filteredContent.stream()
