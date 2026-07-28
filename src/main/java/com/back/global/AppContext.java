@@ -18,17 +18,20 @@ public class AppContext {
     public static WiseSayingFileRepository wiseSayingFileRepository;
 
     // 테스트용 scanner
-    public static void init(Scanner scanner) {
+    public static void init(Scanner scanner, boolean isFileMode) {
         AppContext.scanner = scanner;
-        AppContext.wiseSayingRepository = new WiseSayingRepository();
+        AppContext.wiseSayingMemRepository = new WiseSayingMemRepository();
         AppContext.wiseSayingFileRepository = new WiseSayingFileRepository();
+        AppContext.wiseSayingRepository = isFileMode
+                ? new WiseSayingFileRepository()
+                : new WiseSayingMemRepository();
         AppContext.wiseSayingService = new WiseSayingService();
         AppContext.wiseSayingController = new WiseSayingController();
         AppContext.systemController = new SystemController();
     }
 
     //실제 앱에 사용될 sc
-    public static void init() {
-        init(new Scanner(System.in));
-    }
+    public static void init(boolean isFileMode) {
+        init(new Scanner(System.in), isFileMode);
+    }}
 }

@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-public class WiseSayingFileRepository {
+public class WiseSayingFileRepository implements WiseSayingRepository {
 
     private static final String DB_PATH = "db/wiseSaying";
 
@@ -23,6 +23,74 @@ public class WiseSayingFileRepository {
 
     private String getLastIdPath() {
         return DB_PATH + "/lastId.txt";
+    }
+
+    public Optional<WiseSaying> findById(int id) {
+        String jsonStr = Util.file.get("db/wiseSaying/%d.json".formatted(id), "");
+
+        if(jsonStr.isEmpty()) {
+            return Optional.empty();
+        }
+
+        Map<String, Object> wiseSayingMap = Util.json.toMap(jsonStr);
+        WiseSaying wiseSaying = WiseSaying.fromMap(wiseSayingMap);
+
+        return Optional.of(wiseSaying);
+    }
+
+    public List<WiseSaying> findAll() {
+        return Util.file.walkRegularFiles(DB_PATH, "^\\d+\\.json$")
+                .map(path -> Util.file.get(path.toString(), ""))
+                .map(Util.json::toMap)
+                .map(WiseSaying::fromMap)
+                .toList();
+    }
+
+    @Override
+    public List<WiseSaying> findListDesc() {
+        return findAll().reversed();
+    }
+
+    public PageDto findByContentContainingIdDesc(String kw, int pageSize, int pageNo) {
+
+        List<WiseSaying> filteredWiseSayings = findAll().stream()
+                .filter(wiseSaying -> wiseSaying.getContent().contains(kw))
+                .sorted(Comparator.comparing(WiseSaying::getId).reversed())
+                .toList();
+
+        return pageOf(filteredWiseSayings, pageNo, pageSize);
+    }
+    public PageDto findByAuthorContainingIdDesc(String kw, int pageSize, int pageNo) {
+        List<WiseSaying> filteredWiseSayings = findAll().stream()
+                .filter(wiseSaying -> wiseSaying.getAuthor().contains(kw))
+                .sorted(Comparator.comparing(WiseSaying::getId).reversed())
+                .toList();
+
+        return pageOf(filteredWiseSayings, pageNo, pageSize);
+    }
+
+    public PageDto findByContentContainingOrAuthorContainingIdDesc(String kw, int pageSize, int pageNo) {
+        List<WiseSaying> filteredWiseSayings = findAll().stream()
+                .filter(wiseSaying -> wiseSaying.getAuthor().contains(kw) || wiseSaying.getContent().contains(kw))
+                .sorted(Comparator.comparing(WiseSaying::getId).reversed())
+                .toList();
+
+        return pageOf(filteredWiseSayings, pageNo, pageSize);
+    }
+
+    private PageDto pageOf(List<WiseSaying> filteredContent, int pageNo, int pageSize) {
+
+        List<WiseSaying> content = filteredContent.stream()
+                .skip((pageNo-1) * pageSize)
+                .limit(pageSize)
+                .toList();
+
+        int totalItems = filteredContent.size();
+        return new PageDto(pageNo, pageSize, totalItems, content);
+    }
+
+    private int getLastId() {
+        return Util.file.getAsInt(getLastIdPath(), 0);
     }
 
     public WiseSaying save(WiseSaying wiseSaying) {
@@ -47,76 +115,23 @@ public class WiseSayingFileRepository {
         return wiseSaying;
     }
 
-    public Optional<WiseSaying> findById(int id) {        String jsonStr = Util.file.get("db/wiseSaying/%d.json".formatted(id), "");
-
-        if(jsonStr.isEmpty()) {
-            return Optional.empty();
-        }
-
-        Map<String, Object> wiseSayingMap = Util.json.toMap(jsonStr);
-        WiseSaying wiseSaying = WiseSaying.fromMap(wiseSayingMap);
-
-        return Optional.of(wiseSaying);
-    }
-
     public boolean delete(WiseSaying wiseSaying) {
         return Util.file.delete(getFilePath(wiseSaying.getId()));
     }
 
-    public List<WiseSaying> findAll() {
-        return Util.file.walkRegularFiles(DB_PATH, "^\\d+\\.json$")
-                .map(path -> Util.file.get(path.toString(), ""))
-                .map(Util.json::toMap)
-                .map(WiseSaying::new)
-                .toList();
+    public boolean delete(int id) {
+        Optional<WiseSaying> wiseSayingOp = findById(id);
+        if(wiseSayingOp.isEmpty()) {
+            return false;
+        }
 
+        Util.file.delete(getFilePath(wiseSayingOp.get().getId()));
+        return true;
     }
 
     private void incrementLastId() {
         Util.file.set(getLastIdPath(), String.valueOf(getLastId() + 1));
     }
 
-    private int getLastId() {
-        return Util.file.getAsInt(getLastIdPath(), 0);
-    }
 
-    public PageDto findByContentContainingDesc(String kw, int pageSize, int pageNo) {
-        List<WiseSaying> filteredWiseSayings = findAll().stream()
-                .filter(wiseSaying -> wiseSaying.getContent().contains(kw))
-                .sorted(Comparator.comparing(WiseSaying::getId).reversed())
-                .toList();
-
-        return pageOf(filteredWiseSayings, pageNo, pageSize);
-    }
-
-
-    public PageDto findByContentContainingOrAuthorContainingIdDesc(String kw, int pageSize, int pageNo) {
-        List<WiseSaying> filteredWiseSayings = findAll().stream()
-                .filter(wiseSaying -> wiseSaying.getAuthor().contains(kw) || wiseSaying.getContent().contains(kw))
-                .sorted(Comparator.comparing(WiseSaying::getId).reversed())
-                .toList();
-
-        return pageOf(filteredWiseSayings, pageNo, pageSize);
-    }
-
-
-    private PageDto pageOf(List<WiseSaying> filteredContent, int pageNo, int pageSize) {
-
-        List<WiseSaying> content = filteredContent.stream()
-                .skip((pageNo-1) * pageSize)
-                .limit(pageSize)
-                .toList();
-
-        int totalItems = filteredContent.size();
-        return new PageDto(pageNo, pageSize, totalItems, content);
-    }
-
-    public PageDto findByAuthorContainingDesc(String kw, int pageSize, int pageNo) {
-        List<WiseSaying> filteredWiseSayings = findAll().stream()
-                .filter(wiseSaying -> wiseSaying.getAuthor().contains(kw))
-                .sorted(Comparator.comparing(WiseSaying::getId).reversed())
-                .toList();
-
-        return pageOf(filteredWiseSayings, pageNo, pageSize);
-    }
 }

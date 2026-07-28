@@ -9,7 +9,7 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
 
-        AppContext.init();
+        AppContext.init(true);
         new App().run();
 
 //        experiment1();

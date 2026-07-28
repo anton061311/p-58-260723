@@ -9,6 +9,7 @@ build/
 scr/main/java/com/back/domain/Main.java
 *.txt
 .temp/
+.db/
 
 ### IntelliJ IDEA ###
 .idea/
